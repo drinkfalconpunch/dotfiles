@@ -1,170 +1,224 @@
 set nocompatible
 filetype off
 
-set rtp+=~/.vim/bundle/vundle
-call vundle#rc()
+"set rtp+=~/.vim/bundle/vundle
+call plug#begin('~/.vim/plugs')
 
 " This is the Vundle package, which can be found on GitHub.
 " For GitHub repos, you specify plugins using the 
 " 'user/repository' format
-"Plugin 'gmarik/vundle'
-Plugin 'VundleVim/Vundle.vim'
+
+" Color themes
+Plug 'joshdick/onedark.vim'
 
 " We could also add repositories with a ".git" extension
-Plugin 'scrooloose/nerdtree.git'
-
-Plugin 'scrooloose/syntastic'
+Plug 'scrooloose/nerdtree'
+Plug 'jistr/vim-nerdtree-tabs'
 
 " Python import sorter
-Plugin 'fisadev/vim-isort'
+Plug 'fisadev/vim-isort'
 
 " Go plugins
-Plugin 'fatih/vim-go'
+Plug 'fatih/vim-go'
+Plug 'neomake/neomake'
 
-Plugin 'neomake/neomake'
+" C++ highlighting
+Plug 'octol/vim-cpp-enhanced-highlight'
+
+" Rust plugin
+Plug 'rust-lang/rust.vim'
 
 " Fuzzy file finder (like Ctrl+K in other apps)
-Plugin 'ctrlpvim/ctrlp.vim'
+Plug 'junegunn/fzf'
 
-Plugin 'editorconfig/editorconfig-vim'
+" Lightline status bar for the bottom.
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+" Multiple cursors.
+Plug 'terryma/vim-multiple-cursors'
+
+" Shell commands in vim
+Plug 'tpope/vim-eunuch'
+
+" Surround text with brackets
+Plug 'tpope/vim-surround'
+
+" Comment lines
+Plug 'tpope/vim-commentary'
+
+" Emmet for vim
+Plug 'mattn/emmet-vim'
+
+" Language packs for vim
+Plug 'sheerun/vim-polyglot'
+
+Plug 'editorconfig/editorconfig-vim'
 
 " Allow plugins to define their own operator
-Plugin 'kana/vim-operator-user'
+Plug 'kana/vim-operator-user'
+
+" Vim indent guides
+Plug 'nathanaelkane/vim-indent-guides'
+
+" Syntastic
+Plug 'vim-syntastic/syntastic'
+
+" Vim indent guide
+Plug 'airblade/vim-gitgutter'
 
 " clang-format plugin
-Plugin 'rhysd/vim-clang-format'
+Plug 'rhysd/vim-clang-format'
 
 " Plugin which allows me to press a button to toggle between header and source
 " file. Currently bound to LEADER+H
-Plugin 'ericcurtin/CurtineIncSw.vim'
+Plug 'ericcurtin/CurtineIncSw.vim'
 
 " Completes ( with )
-Plugin 'jiangmiao/auto-pairs'
+Plug 'jiangmiao/auto-pairs'
 
 " Plugin 'Rip-Rip/clang_conplete'
-"Plugin 'Valloric/YouCompleteMe'
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --omnisharp-completer' }
 
-" To get pluging from Vim Scripts, you can reference the plugin
+" To get plugins from Vim Scripts, you can reference the plugin
 " by name as it appears on the site
-Plugin 'Buffergator'
+" Plug 'Buffergator'
 
-Plugin 'https://github.com/miconda/lucariox.vim.git'
+Plug 'https://github.com/miconda/lucariox.vim.git'
 
-call vundle#end()
-" Now we can turn our filetype functionality back on
-filetype plugin indent on
+call plug#end()
 
-"""
+" Enable indentation rules that are file-type specific.
+" set filetype indent on
 
-syntax on
 
-" Ignore various cache/vendor folders
-set wildignore+=*/node_modules/*,*/dist/*,*/__pycache__/*
+set background=dark
 
-" Ignore C/C++ Object files
-set wildignore+=*.o
-
-" Ignore generated C/C++ Qt files
-set wildignore+=moc_*.cpp,moc_*.h
-
-" Ignore generated C/C++ Qt files
-set wildignore+=moc_*.cpp,moc_*.h
-set wildignore+=*/lib/*
-
-" Ignore Unity asset meta-files
-set wildignore+=*/Assets/*.meta
-
-" Disable swap file. Some people say to keep swap file enabled but in a
-" temporary folder instead. I dislike the dialog that pops up every now and
-" then if a swapfile is left so I just leave it fully disabled
-set noswapfile
-
-" Enable line numbers
-set number
-
-" Don't wrap lines
-set nowrap
-
-" Let backspace delete indentations, newlines, and don't make it stop after
-" reaching the start of your insert mode
-set backspace=indent,eol,start
-
-" Other options that I just copied and haven't tried understanding yet
-set incsearch
-set showmode
-set nocompatible
-filetype on
-set wildmenu
-set ruler
-set lz
-set hid
-set softtabstop=4
-set tabstop=4
-set shiftwidth=4
-set expandtab
+" New lines inherit the indentation of previous lines.
 set autoindent
-set smartindent
-set cindent
-set ai
-set si
-set cin
-set mouse=a
-set cursorline
-set numberwidth=6
-set encoding=utf-8
-
-" Enable relative line numbering
-set rnu
-
-" Customize our status line
-set statusline=%f%m%r%h%w\ 
-set statusline+=[%{&ff}]
-set statusline+=%=
-set statusline+=[\%03.3b/\%02.2B]\ [POS=%04v]
-
-set laststatus=2
-
-if &t_Co == 256
-    " If we're on a 256-color terminal, use pixelmuerto color scheme
-    colorscheme lucariox
-else
-    " Else fall back to ron
-    colorscheme ron
+" Convert tabs to spaces.
+set expandtab
+" Enable indentation rules that are file-type specific.
+set shiftround
+" When shifting, indent using four spaces.
+set shiftwidth=4
+" Insert “tabstop” number of spaces when the “tab” key is pressed.
+set smarttab
+" Indent using four spaces
+set tabstop=4
+" Don’t reset cursor to start of line when moving around.
+set nostartofline
+" Show the cursor position
+set ruler
+" Don’t show the intro message when starting Vim
+set shortmess=atI
+" Enable line numbers
+set number" Use relative line numbers
+if exists("&relativenumber")
+	set relativenumber
+	au BufReadPost * set relativenumber
 endif
 
-" Make a slight customization with the cursorline to the ron theme
-set cursorline
-hi CursorLine term=bold cterm=bold guibg=Grey40
 
-" Store an undo buffer in a file in $HOME/.vimundo
+" Enable mouse in all modes
+set mouse=a
+" Centralize backups, swapfiles and undo history
+set backupdir=~/.vim/backups
+set directory=~/.vim/swaps
+if exists("&undodir")
+	set undodir=~/.vim/undo
+endif
 set undofile
-set undodir=$HOME/.vimundo
+
 set undolevels=1000
 set undoreload=10000
+set wildignore+=*.o
+set wildignore+=*/Assets/*.meta
+set wildignore+=*/lib/*
+set wildignore+=*.pyc
+set wildignore+=*/node_modules/*,*/dist/*,*/__pycache__/*
+set wildignore+=moc_*.cpp,moc_*.h
+set wildignore+=moc_*.cpp,moc_*.h
 
-" Use ; as :
-" Very convenient as you don't have to press shift to run commands
-nnoremap ; :
+" Don’t create backups when editing files in certain directories
+set backupskip=/tmp/*,/private/tmp/*
 
-" Unbind Q (it used to take you into Ex mode)
-nnoremap Q <nop>
+" Make Vim more useful
+set nocompatible
+" Use the OS clipboard by default (on versions compiled with `+clipboard`)
+set clipboard=unnamed
+" Enhance command-line completion
+set wildmenu
+" Allow cursor keys in insert mode
+set esckeys
+" Allow backspace in insert mode
+set backspace=indent,eol,start
+" Optimize for fast terminal connections
+set ttyfast
+" Add the g flag to search/replace by default
+set gdefault
+" Use UTF-8 without BOM
+set encoding=utf-8 nobomb
+" Change mapleader
+let mapleader=","
+" Don’t add empty newlines at the end of files
+set binary
+set noeol
 
-" Unbind F1 (it used to show you a help menu)
-nnoremap <F1> <nop>
 
-" Unbind Shift+K, it's previously used for opening manual or help or something
-map <S-k> <Nop>
+" Respect modeline in files
+set modeline
+set modelines=4
+" Enable per-directory .vimrc files and disable unsafe commands in them
+set exrc
+set secure
+" Enable syntax highlighting
+syntax on
+" Highlight current line
+set cursorline
+" Highlight searches
+set hlsearch
+" Ignore case of searches
+set ignorecase
+" Highlight dynamically as pattern is typed
+set incsearch
+" Always show status line
+set laststatus=2
+" Disable error bells
+set noerrorbells
+" Show the current mode
+set showmode
+" Show the filename in the window titlebar
+set title
+" Show the (partial) command as it’s being typed
+set showcmd
 
-"let g:syntastic_mode_map = { 'mode': 'passive',     
-"                          \ 'active_filetypes': [],     
-"                          \ 'passive_filetypes': [] } 
-"let g:syntastic_auto_loc_list=1     
-"
-let g:syntastic_go_checkers = ['govet', 'errcheck']
+" Start scrolling three lines before the horizontal window border
+set scrolloff=3
 
-nnoremap <silent> <F5> :lnext<CR>
-nnoremap <silent> <F6> :lprev<CR>
-nnoremap <silent> <C-Space> :ll<CR>
+" Strip trailing whitespace (,ss)
+function! StripWhitespace()
+	let save_cursor = getpos(".")
+	let old_query = getreg('/')
+	:%s/\s\+$//e
+	call setpos('.', save_cursor)
+	call setreg('/', old_query)
+endfunction
+noremap <leader>ss :call StripWhitespace()<CR>
+" Save a file as root (,W)
+noremap <leader>W :w !sudo tee % > /dev/null<CR>
+
+" Automatic commands
+if has("autocmd")
+	" Enable file type detection
+	filetype on
+	" Treat .json files as .js
+	autocmd BufNewFile,BufRead *.json setfiletype json syntax=javascript
+	" Treat .md files as Markdown
+	autocmd BufNewFile,BufRead *.md setlocal filetype=markdown
+endif
+
+let g:auto_save = 1
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
@@ -173,33 +227,18 @@ let g:syntastic_check_on_wq = 1
 let g:syntastic_enable_cpp_checker = 0
 let g:syntastic_cpp_checkers=['']
 
-"set statusline+=%#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
-"set statusline+=%*)}
-"
-
-let mapleader = "\<Space>"
 let g:go_fmt_command = "goimports"
 
-au FileType go nmap <leader>r <Plug>(go-run)
-au FileType go nmap <leader>b <Plug>(go-build)
-au FileType go nmap <leader>t <Plug>(go-test)
-au FileType go nmap <leader>c <Plug>(go-coverage)
+autocmd FileType go nmap <leader>r <Plug>(go-run)
+autocmd FileType go nmap <leader>b <Plug>(go-build)
+autocmd FileType go nmap <leader>t <Plug>(go-test)
+autocmd FileType go nmap <leader>c <Plug>(go-coverage)
 
-au FileType cpp nmap <leader>f <Plug>(operator-clang-format)
-au FileType cpp nmap <leader>h :call CurtineIncSw()<CR>
+autocmd FileType cpp nmap <leader>f <Plug>(operator-clang-format)
+autocmd FileType cpp nmap <leader>h :call CurtineIncSw()<CR>
 
-au FileType javascript setlocal ts=2 sw=2 sts=2
-au FileType html setlocal ts=2 sw=2 sts=2
-
-autocmd! BufWritePost *.go Neomake
-
-" ctrlpvim/ctrlp.vim extension options
-" let g:ctrlp_cmd = 'CtrlP .'
-let g:ctrlp_working_path_mode = 'rwa'
-
-nnoremap <silent> <C-B> :CtrlPBuffer<CR>
-nnoremap <silent> <C-K> :CtrlPMixed<CR>
+autocmd FileType javascript setlocal ts=2 sw=2 sts=2
+autocmd FileType html setlocal ts=2 sw=2 sts=2
 
 " clang-format extension options
 autocmd FileType c ClangFormatAutoEnable
@@ -211,10 +250,16 @@ let g:clang_library_path='/usr/local/lib/libclang.so'
 let g:clang_auto_select=1
 let g:clang_close_preview=1
 
-" auto-pairs
-" let g:AutoPairsMapCR = 0
-" imap <silent><CR> <CR><Plug>AutoPairsReturn
+" Syntastic setup
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 
 " YouCompleteMe
-"let g:ycm_python_binary_path = '/usr/bin/python3'
-"let g:ycm_key_list_stop_completion = ['<C-y>', '<CR>']
+let g:ycm_python_binary_path = '/usr/bin/python3'
+let g:ycm_key_list_stop_completion = ['<C-y>', '<CR>']
