@@ -7,6 +7,8 @@ else
 	echo "zsh failed to install" >> $log_file
 fi
 
+/bin/bash sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
 sudo pacman -S --noconfirm zsh-syntax-highlighting
 
 sudo pacman -S --noconfirm tmux

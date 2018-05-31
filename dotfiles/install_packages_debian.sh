@@ -7,6 +7,8 @@ else
 	echo "zsh failed to install" >> $log_file
 fi
 
+/bin/bash sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
 sudo apt-get -y install zsh-syntax-highlighting
 
 sudo apt-get -y install tmux
