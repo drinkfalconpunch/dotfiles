@@ -169,7 +169,8 @@ set secure
 " Enable syntax highlighting
 syntax on
 " Highlight current line
-" set cursorline
+set cursorline
+hi CursorLine term=bold cterm=bold guibg=Grey40
 " Highlight searches
 set hlsearch
 " Ignore case of searches
@@ -186,9 +187,12 @@ set showmode
 set title
 " Show the (partial) command as it’s being typed
 set showcmd
-
+" Vertical cursor line when in insert mode
+" set guicursor=i:ver25-iCursor
 " Start scrolling three lines before the horizontal window border
 set scrolloff=3
+" Go to next/previous line
+set whichwrap+=<,>,h,l,[,]
 
 " Strip trailing whitespace (,ss)
 function! StripWhitespace()
@@ -234,6 +238,8 @@ autocmd FileType cpp nmap <leader>h :call CurtineIncSw()<CR>
 autocmd FileType javascript setlocal ts=2 sw=2 sts=2
 autocmd FileType html setlocal ts=2 sw=2 sts=2
 
+autocmd BufEnter *.py set ai sw=4 ts=4 sta et fo=croql
+
 " clang-format extension options
 autocmd FileType c ClangFormatAutoEnable
 autocmd FileType cpp ClangFormatAutoEnable
@@ -257,3 +263,5 @@ let g:syntastic_check_on_wq = 0
 " YouCompleteMe
 let g:ycm_python_binary_path = '/usr/bin/python3'
 let g:ycm_key_list_stop_completion = ['<C-y>', '<CR>']
+let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:ycm_autoclose_preview_window_after_completion = 1
