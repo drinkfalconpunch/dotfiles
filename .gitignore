@@ -1,0 +1,12 @@
+__pycache__/
+.pytest_cache/
+cassettes/
+.ipynb_checkpoints/
+.vscode/
+.idea/
+
+credentials.py
+main.py
+*.ipynb
+.DS_Store
+.style.yapf

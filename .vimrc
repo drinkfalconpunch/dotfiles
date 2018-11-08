@@ -1,15 +1,20 @@
 set nocompatible
 filetype off
 
-"set rtp+=~/.vim/bundle/vundle
-call plug#begin('~/.vim/plugs')
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
-" This is the Vundle package, which can be found on GitHub.
-" For GitHub repos, you specify plugins using the 
-" 'user/repository' format
+call plug#begin('~/.vim/plugged')
 
 " Color themes
 Plug 'joshdick/onedark.vim'
+Plug 'luochen1990/rainbow'
+Plug 'liuchengxu/eleline.vim'
+Plug 'liuchengxu/space-vim-dark'
+" Plug 'liuchengxu/vim-better-default'
 
 " We could also add repositories with a ".git" extension
 Plug 'scrooloose/nerdtree'
@@ -29,7 +34,8 @@ Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'rust-lang/rust.vim'
 
 " Fuzzy file finder (like Ctrl+K in other apps)
-Plug 'junegunn/fzf'
+Plug 'junegunn/fzf',        { 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 
 " Lightline status bar for the bottom.
 Plug 'vim-airline/vim-airline'
@@ -43,6 +49,7 @@ Plug 'tpope/vim-eunuch'
 
 " Surround text with brackets
 Plug 'tpope/vim-surround'
+Plug 'luochen1990/rainbow'
 
 " Comment lines
 Plug 'tpope/vim-commentary'
@@ -59,13 +66,18 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'kana/vim-operator-user'
 
 " Vim indent guides
-Plug 'nathanaelkane/vim-indent-guides'
+Plug 'Yggdroot/indentLine'
 
 " Syntastic
 Plug 'vim-syntastic/syntastic'
 
 " Vim indent guide
-Plug 'airblade/vim-gitgutter'
+" Plug 'airblade/vim-gitgutter'
+
+" Targets
+Plug 'wellle/targets.vim'
+
+Plug 'markonm/traces.vim'
 
 " clang-format plugin
 Plug 'rhysd/vim-clang-format'
@@ -74,15 +86,14 @@ Plug 'rhysd/vim-clang-format'
 " file. Currently bound to LEADER+H
 Plug 'ericcurtin/CurtineIncSw.vim'
 
+" Vim easy align
+Plug 'junegunn/vim-easy-align'
+
 " Completes ( with )
 Plug 'jiangmiao/auto-pairs'
 
-" Plugin 'Rip-Rip/clang_conplete'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --omnisharp-completer' }
-
-" To get plugins from Vim Scripts, you can reference the plugin
-" by name as it appears on the site
-" Plug 'Buffergator'
+" Code completer
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --go-completer --js-completer' }
 
 Plug 'https://github.com/miconda/lucariox.vim.git'
 
@@ -90,7 +101,6 @@ call plug#end()
 
 " Enable indentation rules that are file-type specific.
 " set filetype indent on
-
 
 set background=dark
 
@@ -121,13 +131,13 @@ endif
 
 
 " Enable mouse in all modes
+" set ttymouse=xterm2
 set mouse=a
+
 " Centralize backups, swapfiles and undo history
 set backupdir=~/.vim/backups
 set directory=~/.vim/swaps
-if exists("&undodir")
-	set undodir=~/.vim/undo
-endif
+set undodir=~/.vim/undos
 set undofile
 
 set undolevels=1000
@@ -176,6 +186,7 @@ set secure
 syntax on
 " Highlight current line
 set cursorline
+hi CursorLine term=bold cterm=bold guibg=Grey40
 " Highlight searches
 set hlsearch
 " Ignore case of searches
@@ -192,9 +203,15 @@ set showmode
 set title
 " Show the (partial) command as it’s being typed
 set showcmd
-
+" Vertical cursor line when in insert mode
+" set guicursor=i:ver25-iCursor
 " Start scrolling three lines before the horizontal window border
 set scrolloff=3
+" Go to next/previous line
+set whichwrap+=<,>,h,l,[,]
+
+" Fixes colors?
+set background=dark
 
 " Strip trailing whitespace (,ss)
 function! StripWhitespace()
@@ -220,6 +237,8 @@ endif
 
 let g:auto_save = 1
 
+let g:airline_theme='bubblegum'
+
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
@@ -240,6 +259,8 @@ autocmd FileType cpp nmap <leader>h :call CurtineIncSw()<CR>
 autocmd FileType javascript setlocal ts=2 sw=2 sts=2
 autocmd FileType html setlocal ts=2 sw=2 sts=2
 
+autocmd BufEnter *.py set ai sw=4 ts=4 sta et fo=croql
+
 " clang-format extension options
 autocmd FileType c ClangFormatAutoEnable
 autocmd FileType cpp ClangFormatAutoEnable
@@ -259,7 +280,32 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+let g:syntastic_enable_balloons = 1
 
 " YouCompleteMe
 let g:ycm_python_binary_path = '/usr/bin/python3'
 let g:ycm_key_list_stop_completion = ['<C-y>', '<CR>']
+let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:ycm_autoclose_preview_window_after_completion = 1
+
+" Airline
+let g:airline#extensions#tabline#enabled = 0
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#formatter = 'unique_tail'
+let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
+let g:airline#extensions#syntastic#enabled = 1
+
+" Nerdtree
+map <C-n> :NERDTreeToggle<CR>
+" Close nerdtree if only window open
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
+"color space-vim-dark
+"hi Normal ctermbg=NONE guibg=NONE
