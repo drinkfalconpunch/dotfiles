@@ -1,0 +1,5 @@
+[style]
+based_on_style=facebook
+allow_split_before_dict_value=False
+indent_dictionary_value=false
+indent_width=4
