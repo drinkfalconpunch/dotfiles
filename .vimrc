@@ -11,21 +11,31 @@ call plug#begin('~/.vim/plugged')
 
 " Color themes
 Plug 'joshdick/onedark.vim'
-Plug 'luochen1990/rainbow'
-Plug 'liuchengxu/eleline.vim'
 Plug 'liuchengxu/space-vim-dark'
+
+" Color brackets"
+Plug 'luochen1990/rainbow'
+" Plug 'liuchengxu/eleline.vim'
 " Plug 'liuchengxu/vim-better-default'
+
+Plug 'junegunn/fzf'
 
 " We could also add repositories with a ".git" extension
 Plug 'scrooloose/nerdtree'
-Plug 'jistr/vim-nerdtree-tabs'
+
+" Code folding
+" Plug 'tmhedberg/SimpylFold'
+" Plug 'Konfekt/FastFold'
 
 " Python import sorter
 Plug 'fisadev/vim-isort'
 
 " Go plugins
-Plug 'fatih/vim-go'
-Plug 'neomake/neomake'
+Plug 'fatih/vim-go', {'for': ['go', 'markdown']}
+
+" Linting"
+" Plug 'neomake/neomake'
+Plug 'w0rp/ale'
 
 " C++ highlighting
 Plug 'octol/vim-cpp-enhanced-highlight'
@@ -34,8 +44,7 @@ Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'rust-lang/rust.vim'
 
 " Fuzzy file finder (like Ctrl+K in other apps)
-Plug 'junegunn/fzf',        { 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf',    { 'dir': '~/.fzf', 'do': './install --all'  }
 
 " Lightline status bar for the bottom.
 Plug 'vim-airline/vim-airline'
@@ -49,13 +58,12 @@ Plug 'tpope/vim-eunuch'
 
 " Surround text with brackets
 Plug 'tpope/vim-surround'
-Plug 'luochen1990/rainbow'
 
 " Comment lines
 Plug 'tpope/vim-commentary'
 
-" Emmet for vim
-Plug 'mattn/emmet-vim'
+" Git commands in vim
+Plug 'tpope/vim-fugitive'
 
 " Language packs for vim
 Plug 'sheerun/vim-polyglot'
@@ -69,15 +77,15 @@ Plug 'kana/vim-operator-user'
 Plug 'Yggdroot/indentLine'
 
 " Syntastic
-Plug 'vim-syntastic/syntastic'
+" Plug 'vim-syntastic/syntastic'
 
 " Vim indent guide
 " Plug 'airblade/vim-gitgutter'
 
 " Targets
-Plug 'wellle/targets.vim'
+" Plug 'wellle/targets.vim'
 
-Plug 'markonm/traces.vim'
+" Plug 'markonm/traces.vim'
 
 " clang-format plugin
 Plug 'rhysd/vim-clang-format'
@@ -93,7 +101,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'jiangmiao/auto-pairs'
 
 " Code completer
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --go-completer --js-completer' }
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --go-completer --rust-completer' }
 
 Plug 'https://github.com/miconda/lucariox.vim.git'
 
@@ -102,7 +110,7 @@ call plug#end()
 " Enable indentation rules that are file-type specific.
 " set filetype indent on
 
-set background=dark
+syntax on
 
 " New lines inherit the indentation of previous lines.
 set autoindent
@@ -122,6 +130,9 @@ set nostartofline
 set ruler
 " Don’t show the intro message when starting Vim
 set shortmess=atI
+
+" set foldmethod=indent
+set nofoldenable
 " Enable line numbers
 set number" Use relative line numbers
 if exists("&relativenumber")
@@ -129,16 +140,21 @@ if exists("&relativenumber")
 	au BufReadPost * set relativenumber
 endif
 
-
+" Fixes the HOME and END buttons not working
+" set term=xterm-256color
 " Enable mouse in all modes
 " set ttymouse=xterm2
 set mouse=a
 
 " Centralize backups, swapfiles and undo history
+silent !mkdir ~/.vim/backups > /dev/null 2>&1
 set backupdir=~/.vim/backups
+silent !mkdir ~/.vim/swaps > /dev/null 2>&1
 set directory=~/.vim/swaps
+silent !mkdir ~/.vim/undos > /dev/null 2>&1
 set undodir=~/.vim/undos
 set undofile
+set noswapfile
 
 set undolevels=1000
 set undoreload=10000
@@ -160,7 +176,7 @@ set clipboard=unnamed
 " Enhance command-line completion
 set wildmenu
 " Allow cursor keys in insert mode
-set esckeys
+"set esckeys
 " Allow backspace in insert mode
 set backspace=indent,eol,start
 " Optimize for fast terminal connections
@@ -170,7 +186,7 @@ set gdefault
 " Use UTF-8 without BOM
 set encoding=utf-8 nobomb
 " Change mapleader
-let mapleader=","
+let mapleader=" "
 " Don’t add empty newlines at the end of files
 set binary
 set noeol
@@ -210,8 +226,6 @@ set scrolloff=3
 " Go to next/previous line
 set whichwrap+=<,>,h,l,[,]
 
-" Fixes colors?
-set background=dark
 
 " Strip trailing whitespace (,ss)
 function! StripWhitespace()
@@ -235,16 +249,31 @@ if has("autocmd")
 	autocmd BufNewFile,BufRead *.md setlocal filetype=markdown
 endif
 
+" Ale settings
+let g:ale_lint_on_text_changed = 'never' 
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_save = 0
+nmap <leader>sa :ALEFix<CR>
+nmap <leader>ss :ALELint<CR>
+
 let g:auto_save = 1
 
+" Airline
+let g:airline#extensions#tabline#enabled = 0
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#formatter = 'unique_tail'
+let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
+" let g:airline#extensions#syntastic#enabled = 1
 let g:airline_theme='bubblegum'
+let g:airline_powerline_fonts=1
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 1
-let g:syntastic_enable_cpp_checker = 0
-let g:syntastic_cpp_checkers=['']
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_wq = 1
+" let g:syntastic_enable_cpp_checker = 0
+" let g:syntastic_cpp_checkers=['']
 
 let g:go_fmt_command = "goimports"
 
@@ -273,28 +302,23 @@ let g:clang_close_preview=1
 
 " Syntastic setup
 set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_enable_balloons = 1
 
 " YouCompleteMe
 let g:ycm_python_binary_path = '/usr/bin/python3'
 let g:ycm_key_list_stop_completion = ['<C-y>', '<CR>']
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
+map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
-" Airline
-let g:airline#extensions#tabline#enabled = 0
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
-let g:airline#extensions#tabline#formatter = 'unique_tail'
-let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
-let g:airline#extensions#syntastic#enabled = 1
+let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
+
+" Code folding
+" let g:SimpylFold_docstring_preview=1
+
+" Rainbow brackets
+let g:rainbow_active = 1
 
 " Nerdtree
 map <C-n> :NERDTreeToggle<CR>
@@ -307,5 +331,10 @@ xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 
-"color space-vim-dark
+" Color themes
+" color space-vim-dark
 "hi Normal ctermbg=NONE guibg=NONE
+colorscheme onedark
+highlight LineNr ctermfg=yellow 
+highlight CursorLineNr ctermfg=white 
+" set background=dark
