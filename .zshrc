@@ -71,16 +71,6 @@ export UPDATE_ZSH_DAYS=7
 # see 'man strftime' for details.
 HIST_STAMPS="mm/dd/yyyy"
 
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load?
-# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
-
 source $ZSH/oh-my-zsh.sh
 source /usr/local/bin/virtualenvwrapper.sh
 
@@ -123,7 +113,7 @@ HIST_STAMPS="mm/dd/yyyy"
 # Plugins to load
 plugins=(git
         pygmalion-virtualenv
-		autoswitch_virtualenv
+	autoswitch_virtualenv
         zsh-syntax-highlighting
         zsh-autosuggestions)
 
