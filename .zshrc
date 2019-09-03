@@ -4,13 +4,16 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 # Golang
 export PATH=$PATH:/usr/local/go/bin
 
+# Anaconda
+export PATH="$HOME/anaconda3/bin:$PATH"
+
 # Rust
 export PATH="$HOME/.cargo/bin:$PATH"
 
 export PATH="/usr/local/opt/python/libexec/bin:$PATH"
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/john/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 # Python virtualenv
 export WORKON_HOME=~/.virtualenvs
@@ -71,6 +74,16 @@ export UPDATE_ZSH_DAYS=7
 # see 'man strftime' for details.
 HIST_STAMPS="mm/dd/yyyy"
 
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load?
+# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
+
 source $ZSH/oh-my-zsh.sh
 source /usr/local/bin/virtualenvwrapper.sh
 
@@ -106,6 +119,8 @@ alias pip-update='pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | sudo xa
 alias vi='vim'
 alias commit='git commit' #cause i keep forgetting to type git
 alias pip='python -m pip'
+
+eval $(thefuck --alias)
 
 # Command execution time stamp shown in the history command output.
 HIST_STAMPS="mm/dd/yyyy"
