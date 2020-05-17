@@ -1,19 +1,45 @@
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+export HOST=$(hostname)
+
 # Golang
 export PATH=$PATH:/usr/local/go/bin
+
+# Julia
+export PATH="$PATH:/usr/local/julia/bin"
 
 # Rust
 export PATH="$HOME/.cargo/bin:$PATH"
 
-export PATH="/usr/local/opt/python/libexec/bin:$PATH"
+# export PATH="/usr/local/opt/python/libexec/bin:$PATH"
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/john/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
+
+# export PATH="$PATH:/home/john/opt/bin"
+
+export PATH="$HOME/anaconda3/bin:$PATH"  # commented out by conda initialize
+
+#export GOROOT=$HOME/go
+export GOPATH=$HOME/go
+#export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
+#export PATH=$PATH:$GOROOT/bin
+export GOBIN=$GOPATH/bin
 
 # Python virtualenv
 export WORKON_HOME=~/.virtualenvs
+
+# Hadoop ssh
+#export PDSH_RCMD_TYPE=ssh
+#export PATH=$PATH:/home/john/hadoop-3.2.1/bin
+
+# Hive
+#export HIVE_HOME="/home/john/hive-3.2.1"
+#export PATH=$PATH:$HIVE_HOME/bin
+
+#export CLASSPATH=$CLASSPATH:$HADOOP_HOME/lib/*:.
+#export CLASSPATH=$CLASSPATHL$HIVE_HOME/lin/*:
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -79,10 +105,9 @@ HIST_STAMPS="mm/dd/yyyy"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
+#plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
 
-source $ZSH/oh-my-zsh.sh
-source /usr/local/bin/virtualenvwrapper.sh
+#source /usr/local/bin/virtualenvwrapper.sh
 
 # User configuration
 
@@ -111,20 +136,45 @@ source /usr/local/bin/virtualenvwrapper.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # Custom aliases
+alias git-ssh='eval "$(ssh-agent -s)"; ssh-add ~/.ssh/id_rsa'
+alias python='python3'
 alias config='/usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME'
 alias pip-update='pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | sudo xargs pip install -U'
 alias vi='vim'
 alias commit='git commit' #cause i keep forgetting to type git
 alias pip='python -m pip'
+#alias python='/usr/bin/python3'
+#alias python3='/usr/bin/python3'
 
 # Command execution time stamp shown in the history command output.
 HIST_STAMPS="mm/dd/yyyy"
 
 # Plugins to load
 plugins=(git
-        pygmalion-virtualenv
-		autoswitch_virtualenv
-        zsh-syntax-highlighting
-        zsh-autosuggestions)
+	     golang
+         docker
+#        pygmalion-virtualenv
+#		autoswitch_virtualenv
+		 zsh-completions
+         zsh-autosuggestions
+		 zsh-syntax-highlighting)
+
+source $ZSH/oh-my-zsh.sh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/john/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+#if [ $? -eq 0 ]; then
+#    eval "$__conda_setup"
+#else
+#    if [ -f "/home/john/anaconda3/etc/profile.d/conda.sh" ]; then
+#        . "/home/john/anaconda3/etc/profile.d/conda.sh"
+#    else
+#        export PATH="/home/john/anaconda3/bin:$PATH"
+#    fi
+#fi
+#unset __conda_setup
+# <<< conda initialize <<<
+

@@ -18,6 +18,9 @@ Plug 'luochen1990/rainbow'
 " Plug 'liuchengxu/eleline.vim'
 " Plug 'liuchengxu/vim-better-default'
 
+
+" LaTeX
+Plug 'lervag/vimtex'
 Plug 'junegunn/fzf'
 
 " We could also add repositories with a ".git" extension
@@ -316,6 +319,8 @@ let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
 
 " Code folding
 " let g:SimpylFold_docstring_preview=1
+
+set rtp+=/usr/local/opt/fzf
 
 " Rainbow brackets
 let g:rainbow_active = 1
