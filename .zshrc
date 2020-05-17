@@ -8,6 +8,8 @@ export PATH=$PATH:/usr/local/go/bin
 
 # Julia
 export PATH="$PATH:/usr/local/julia/bin"
+# Anaconda
+export PATH="$HOME/anaconda3/bin:$PATH"
 
 # Rust
 export PATH="$HOME/.cargo/bin:$PATH"
@@ -23,8 +25,7 @@ export PATH="$HOME/anaconda3/bin:$PATH"  # commented out by conda initialize
 
 #export GOROOT=$HOME/go
 export GOPATH=$HOME/go
-#export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
-#export PATH=$PATH:$GOROOT/bin
+
 export GOBIN=$GOPATH/bin
 
 # Python virtualenv
@@ -146,18 +147,22 @@ alias pip='python -m pip'
 #alias python='/usr/bin/python3'
 #alias python3='/usr/bin/python3'
 
+eval $(thefuck --alias)
+
 # Command execution time stamp shown in the history command output.
 HIST_STAMPS="mm/dd/yyyy"
 
 # Plugins to load
-plugins=(git
-	     golang
-         docker
+plugins=(
+        git
+	golang
+        docker
 #        pygmalion-virtualenv
 #		autoswitch_virtualenv
-		 zsh-completions
-         zsh-autosuggestions
-		 zsh-syntax-highlighting)
+	zsh-completions
+        zsh-autosuggestions
+	zsh-syntax-highlighting
+)
 
 source $ZSH/oh-my-zsh.sh
 
